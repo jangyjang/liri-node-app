@@ -128,48 +128,46 @@ function doWhatItSays (){
 
     else {
     var dataArr = data.split(",");
-      for (var i=0; i<dataArr.length;i++){
-        if (dataArr[0] === "my-tweet"){
-          getTweets()
-        }
-        else if (dataArr[0] === "spotify-this-song"){
-          userSongInput = dataArr[1];
-          spotify
-            .search({ 
-              type: 'track', 
-              query: userSongInput, 
-              limit: 3,
-            })
-            .then(function(response) {
-              var response = response.tracks.items;
-              for (var i=0; i<response.length; i++){
-                console.log("Artist Name: " + response[i].album.artists[0].name)
-                console.log("Song Name: " + response[i].name)
-                console.log("Spotify Preview: " + response[i].external_urls.spotify);
-                console.log("Album Name: " + response[i].album.name)
-                console.log("---------------------")
-              };
-            })
-            .catch(function(err) {
-              console.log(err);
-            });
-        }
-        else if (dataArr[0] === "movie-this"){
-          userMovieInput = dataArr[1];
-          request('http://www.omdbapi.com/?t='+userMovieInput+'&apikey=40e9cece', function(error, response, body) {
-              if (!error && response.statusCode === 200) {
-                console.log("Title: " + JSON.parse(body).Title);
-                console.log("Release Year: " + JSON.parse(body).Year);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-                console.log("Country: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
-              };
+      if (dataArr[0] === "my-tweet"){
+        getTweets()
+      }
+      else if (dataArr[0] === "spotify-this-song"){
+        userSongInput = dataArr[1];
+        spotify
+          .search({ 
+            type: 'track', 
+            query: userSongInput, 
+            limit: 3,
+          })
+          .then(function(response) {
+            var response = response.tracks.items;
+            for (var i=0; i<response.length; i++){
+              console.log("Artist Name: " + response[i].album.artists[0].name)
+              console.log("Song Name: " + response[i].name)
+              console.log("Spotify Preview: " + response[i].external_urls.spotify);
+              console.log("Album Name: " + response[i].album.name)
+              console.log("---------------------")
+            };
+          })
+          .catch(function(err) {
+            console.log(err);
           });
-        };
-      };//end of for loop
+      }
+      else if (dataArr[0] === "movie-this"){
+        userMovieInput = dataArr[1];
+        request('http://www.omdbapi.com/?t='+userMovieInput+'&apikey=40e9cece', function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+              console.log("Title: " + JSON.parse(body).Title);
+              console.log("Release Year: " + JSON.parse(body).Year);
+              console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+              console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+              console.log("Country: " + JSON.parse(body).Country);
+              console.log("Language: " + JSON.parse(body).Language);
+              console.log("Plot: " + JSON.parse(body).Plot);
+              console.log("Actors: " + JSON.parse(body).Actors);
+            };
+        });
+      };
     }; //end of else statement of the function
   });//end of fs.readFile
 };// end of do what it says function
